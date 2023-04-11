@@ -34,3 +34,6 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.sideBar {
+  height: 100%;
+}
