@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import ConstructionIcon from '@mui/icons-material/Construction';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 class Board extends React.Component {
     state = {
         tasks: [
             {
-                name: "Add More Tasks",
+                name: "add a task",
+                discriptions: "yioooo",
+                date: "12/12/2002",
+                // hight, medium, low
+                urgency: "high",
+                worker: "samir",
                 category: "todo"
             }
         ]
@@ -13,11 +20,9 @@ class Board extends React.Component {
     onDragOver = ev => {
         ev.preventDefault();
     };
-
     onDragStart = (ev, name) => {
         ev.dataTransfer.setData("id", name);
     };
-
     onDrop = (ev, cat) => {
         const id = ev.dataTransfer.getData("id");
 
@@ -61,10 +66,32 @@ class Board extends React.Component {
                     draggable
                     onDragStart={e => this.onDragStart(e, t.name)}
                 >
-                    <CardTitle>
-                        {t.name}
+                    <Urgency style={{
+                        backgroundColor: t.urgency === 'high' ? "red" : t.urgency === 'medium' ? "yellow" : "green",
+                        color: t.urgency === 'high' ? '#fff' : '#000'
+                    }} ></Urgency>
+                    <CardDate>
+                        <CalendarMonthIcon />
+                        {t.date}
+                    </CardDate>
 
-                    </CardTitle>
+                    <CardName>
+                        {t.name}
+                    </CardName>
+                    <CardDis>
+                        {t.discriptions}
+                    </CardDis>
+                    {/* date */}
+                    {/* urgency */}
+
+                    {/* worker */}
+                    <CardWorker>
+                        <ConstructionIcon />
+                        <Worker>
+                            {t.worker}
+
+                        </Worker>
+                    </CardWorker>
                 </Card>
             );
         });
@@ -130,6 +157,7 @@ export default Board;
 
 const GigaContainer = styled.div`
 margin-top: 2vw;
+padding-left: 5vw;
 `
 const Container = styled.div`
 /* background-color: red; */
@@ -175,8 +203,6 @@ const Remove = styled.div`
   background-color: #f4f5f7;
   color: black;
   border-radius: 3px;
-
-
 `
 
 const Title = styled.h1`
@@ -185,7 +211,6 @@ font-size: 18px;
   font-weight: bold;
   margin-bottom: 8px;
   text-align: center;
-
 `
 const Card = styled.div`
 /* background-color: red; */
@@ -199,9 +224,44 @@ background-color: #fff;
   min-height: 20px;
   position: relative;
   z-index: 0;
+  /* margin: 30px; */
 `
-const CardTitle = styled.div`
+const CardName = styled.div`
   font-weight: bold;
-  padding: 8px;
-  color: #6b808c;
+  font-size: 2vw;
+  /* padding: 8px; */
+  color: black; 
+margin-left: 12px;
+margin-bottom: 12px;
+
+`
+const CardDis = styled(CardName)`
+color: gray;
+font-size: 1.2vw;
+margin-left: 12px;
+margin-bottom: 30px;
+`
+const CardWorker = styled.div`
+display: flex;
+margin-left: 12px;
+color: gray;
+gap: 10px;
+margin-bottom: 12px;
+`
+const CardDate = styled(CardWorker)`
+color: gray;
+margin-left: 12px;
+display: flex;
+`
+const Urgency = styled.div`
+width: 30%;
+height: 8px;
+border-radius: 20px;
+margin-left: 12px;
+margin-top: 12px;
+margin-bottom: 10px;
+`
+
+const Worker = styled.div`
+font-weight: bold;
 `
