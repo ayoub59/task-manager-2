@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ConstructionIcon from '@mui/icons-material/Construction';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+// import
 class Board extends React.Component {
     state = {
         tasks: [
@@ -14,7 +15,15 @@ class Board extends React.Component {
                 worker: "samir",
                 category: "todo"
             }
-        ]
+        ],
+        newTask: {
+            name: "",
+            description: "",
+            date: "",
+            urgency: "low",
+            worker: "",
+            category: "todo"
+        }
     };
 
     onDragOver = ev => {
@@ -48,6 +57,37 @@ class Board extends React.Component {
             });
             ev.target.value = " ";
         }
+    };
+    // new code
+    handleInputChange = event => {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState(prevState => ({
+            newTask: {
+                ...prevState.newTask,
+                [name]: value
+            }
+        }));
+    };
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const task = this.state.newTask;
+
+        this.setState(prevState => ({
+            tasks: [...prevState.tasks, task],
+            newTask: {
+                name: "",
+                description: "",
+                date: "",
+                urgency: "low",
+                worker: "",
+                category: "todo"
+            }
+        }));
     };
 
     render() {
@@ -110,12 +150,69 @@ class Board extends React.Component {
                         <Title>Todo</Title>
                         {tasks.todo}
                         <Input>
-                            <Add
+                            {/* <Add
                                 onKeyPress={e => this.handleKeyPress(e)}
                                 className="input"
                                 type="text"
                                 placeholder="Task Name"
-                            />
+                            /> */}
+                            <form onSubmit={this.handleSubmit}>
+                                <InputWrapper>
+                                    <InputLabel>Task Name:</InputLabel>
+                                    <InputField
+                                        type="text"
+                                        name="name"
+                                        value={this.state.newTask.name}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter task name"
+                                        required
+                                    />
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputLabel>Description:</InputLabel>
+                                    <InputField
+                                        type="text"
+                                        name="description"
+                                        value={this.state.newTask.description}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter task description"
+                                    />
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputLabel>Urgency:</InputLabel>
+                                    <SelectField
+                                        name="urgency"
+                                        value={this.state.newTask.urgency}
+                                        onChange={this.handleInputChange}
+                                    >
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </SelectField>
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputLabel>Date:</InputLabel>
+                                    <InputField
+                                        type="date"
+                                        name="date"
+                                        value={this.state.newTask.date}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputLabel>Assigned To:</InputLabel>
+                                    <InputField
+                                        type="text"
+                                        name="worker"
+                                        value={this.state.newTask.worker}
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter worker name"
+                                    />
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputField type="submit" value="Add Task" />
+                                </InputWrapper>
+                            </form>
                         </Input>
                     </Column>
 
@@ -145,8 +242,7 @@ class Board extends React.Component {
                     </Remove>
 
                 </Container>
-
-
+                {/* <Input /> */}
             </GigaContainer>
         );
     }
@@ -265,3 +361,32 @@ margin-bottom: 10px;
 const Worker = styled.div`
 font-weight: bold;
 `
+
+// input 
+
+
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`;
+
+const InputLabel = styled.label`
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
+
+const InputField = styled.input`
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+`;
+
+const SelectField = styled.select`
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+`;
